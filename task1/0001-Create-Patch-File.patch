@@ -1,0 +1,94 @@
+From b824296017bfaba2d05289414b711e2c25f635c6 Mon Sep 17 00:00:00 2001
+From: Alisha Bhatia <alishabhatia17@gmail.com>
+Date: Tue, 16 Jun 2020 23:20:19 -0400
+Subject: [PATCH] Create Patch File
+
+---
+ .DS_Store | Bin 0 -> 6148 bytes
+ client.py |  53 ++++++++++++++++++++++++++++++++++++++++++-----------
+ 2 files changed, 42 insertions(+), 11 deletions(-)
+ create mode 100644 .DS_Store
+
+diff --git a/.DS_Store b/.DS_Store
+new file mode 100644
+index 0000000000000000000000000000000000000000..5008ddfcf53c02e82d7eee2e57c38e5672ef89f6
+GIT binary patch
+literal 6148
+zcmeH~Jr2S!425mzP>H1@V-^m;4Wg<&0T*E43hX&L&p$$qDprKhvt+--jT7}7np#A3
+zem<@ulZcFPQ@L2!n>{z**<q8>++&mCkOWA81W14cNZ<zv;LbK1Poaz?KmsK2CSc!(
+z0ynLxE!0092;Krf2c+FF_Fe*7ECH>lEfg7;MkzE(HCqgga^y>{tEnwC%0;vJ&^%eQ
+zLs35+`xjp>T0<F0fCPF1$Cyrb|F7^5{eNG?83~ZUUlGt@xh*qZDeu<Z%US-OSsOPv
+j)R!Z4KLME7ReXlK;d!wEw5GODWMKRea10D2@KpjYNUI8I
+
+literal 0
+HcmV?d00001
+
+diff --git a/client.py b/client.py
+index 40badcd..133450d 100644
+--- a/client.py
++++ b/client.py
+@@ -30,19 +30,50 @@ QUERY = "http://localhost:8080/query?id={}"
+ N = 500
+ 
+ def getDataPoint(quote):
+-	""" Produce all of the needed values to generate a datapoint """
+-	""" ------------- Update this function ------------- """
+-	stock = quote['stock']
+-	bid_price = float(quote['top_bid']['price'])
+-	ask_price = float(quote['top_ask']['price'])
+-	price = bid_price
+-	return stock, bid_price, ask_price, price
++    """ Produce all of the needed values to generate a datapoint """
++    """ ------------- Update this function ------------- """
++    stock = quote['stock']
++    bid_price = float(quote['top_bid']['price'])
++    ask_price = float(quote['top_ask']['price'])
++    price = bid_price;
++    ask_price_tot;
++    total_bid = 0;
++    total_ask = 0;
++    stock = ""
++
++    for item in quote:
++        for i in item.items():
++            if (i[0] == 'stock'):
++                stock = i[1];
++            if (i[0] == 'top_ask'):
++                for top_ask in i[1].items():
++                    for val in top_ask:
++                        if (type(val) == float):
++                            total_ask += val
++            elif (i[0] == 'top_bid'):
++                for top_bid in i[1].items():
++                    for val in top_bid:
++                        if (type(val) == float):
++                            total_bid += val
++
++    price = (total_bid + total_ask) / 2
++    quote_tup = (stock, total_bid, total_ask, price)
++
++    return quote_tup;
++
+ 
+ def getRatio(price_a, price_b):
+-	""" Get ratio of price_a and price_b """
+-	""" ------------- Update this function ------------- """
+-	""" Also create some unit tests for this function in client_test.py """
+-	return 1
++    ratio = (price_a + price_b) / 2;
++
++    if (price_a < 0 or price_b < 0):
++        print("error")
++        break;
++
++    """ Get ratio of price_a and price_b """
++    """ ------------- Update this function ------------- """
++    """ Also create some unit tests for this function in client_test.py """
++    return ratio
++
+ 
+ # Main
+ if __name__ == "__main__":
+-- 
+2.24.3 (Apple Git-128)
+
